@@ -1,0 +1,61 @@
+# Intuition
+
+To maximize profit, we need to **buy the stock at the lowest price before selling it at a higher price**.
+
+While traversing the array, we keep track of:
+
+* `minprice` → the minimum stock price seen so far.
+* `maxprofit` → the maximum profit found so far.
+
+For every price, we have two choices:
+
+1. If the current price is lower than `minprice`, update `minprice`.
+2. Otherwise, calculate the profit by selling at the current price and update `maxprofit` if this profit is greater.
+
+This allows us to find the maximum possible profit in a single traversal.
+
+# Approach
+
+1. Initialize `minprice` to `INT_MAX` so that the first price will become the minimum.
+2. Initialize `maxprofit` to `0`, since we cannot have a negative profit.
+3. Traverse the `prices` array:
+
+   * If `price < minprice`, update `minprice`.
+   * Otherwise, calculate `price - minprice`.
+   * If this profit is greater than `maxprofit`, update `maxprofit`.
+4. Return `maxprofit`.
+
+The important idea is that `minprice` always represents the **cheapest buying price encountered before the current day**.
+
+# Complexity
+
+* Time complexity: \(O(n)\)
+
+  We traverse the array only once.
+
+* Space complexity: \(O(1)\)
+
+  We use only two variables, `minprice` and `maxprofit`.
+
+# Code
+
+```cpp
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int minprice = INT_MAX;
+        int maxprofit = 0;
+
+        for (auto price : prices) {
+            if (price < minprice) {
+                minprice = price;
+            }
+            else if (price - minprice > maxprofit) {
+                maxprofit = price - minprice;
+            }
+        }
+
+        return maxprofit;
+    }
+};
+```
